@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kone.entity.EquipmentEntity;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = EquipmentStoreApplication.class)
+@SpringBootTest(classes = EquipmentApplication.class)
 @WebAppConfiguration
 public abstract class AbstractTest
 {

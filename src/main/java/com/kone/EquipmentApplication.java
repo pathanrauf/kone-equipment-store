@@ -9,30 +9,30 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.kone.entity.EquipmentEntity;
-import com.kone.repository.EquipmentStoreRepository;
+import com.kone.repository.EquipmentRepository;
 
 @SpringBootApplication
-public class EquipmentStoreApplication implements CommandLineRunner
+public class EquipmentApplication implements CommandLineRunner
 {
 
 	public static void main(String[] args) {
-		SpringApplication.run(EquipmentStoreApplication.class, args);
+		SpringApplication.run(EquipmentApplication.class, args);
 	}
 
 	@Autowired
-	private EquipmentStoreRepository equipmentStoreRepository;
+	private EquipmentRepository equipmentRepository;
 	
 	protected SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
 	@Override
 	public void run(String... args) throws Exception {
-		equipmentStoreRepository
+		equipmentRepository
 				.save(new EquipmentEntity(1, "Address 1", new Date(sdf.parse("20-05-2020").getTime()), new Date(sdf.parse("20-11-2020").getTime()), "RUNNING"));
-		equipmentStoreRepository
+		equipmentRepository
 				.save(new EquipmentEntity(2, "Address 2", new Date(sdf.parse("20-05-2020").getTime()), new Date(sdf.parse("20-11-2020").getTime()), "RUNNING"));
-		equipmentStoreRepository
+		equipmentRepository
 				.save(new EquipmentEntity(3, "Address 3", new Date(sdf.parse("20-05-2020").getTime()), new Date(sdf.parse("20-11-2020").getTime()), "STOPPED"));
-		equipmentStoreRepository
+		equipmentRepository
 				.save(new EquipmentEntity(4, "Address 4", new Date(sdf.parse("20-05-2020").getTime()), new Date(sdf.parse("20-11-2020").getTime()), "STOPPED"));
 
 	}

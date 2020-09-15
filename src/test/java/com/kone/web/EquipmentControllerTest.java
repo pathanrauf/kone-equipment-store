@@ -18,25 +18,25 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.kone.AbstractTest;
 import com.kone.entity.EquipmentEntity;
-import com.kone.repository.EquipmentStoreRepository;
+import com.kone.repository.EquipmentRepository;
 
-public class EquipmentStoreControllerTest extends AbstractTest
+public class EquipmentControllerTest extends AbstractTest
 {
 	@Autowired
-	private EquipmentStoreRepository equipmentStoreRepository;
+	private EquipmentRepository equipmentRepository;
 
 	@Override
 	@Before
 	public void setUp() throws ParseException {
 		super.setUp();
 
-		equipmentStoreRepository
+		equipmentRepository
 				.save(new EquipmentEntity(1, "Address 1", new Date(sdf.parse("20-05-2020").getTime()), new Date(sdf.parse("20-11-2020").getTime()), "RUNNING"));
-		equipmentStoreRepository
+		equipmentRepository
 				.save(new EquipmentEntity(2, "Address 2", new Date(sdf.parse("20-05-2020").getTime()), new Date(sdf.parse("20-11-2020").getTime()), "RUNNING"));
-		equipmentStoreRepository
+		equipmentRepository
 				.save(new EquipmentEntity(3, "Address 3", new Date(sdf.parse("20-05-2020").getTime()), new Date(sdf.parse("20-11-2020").getTime()), "STOPPED"));
-		equipmentStoreRepository
+		equipmentRepository
 				.save(new EquipmentEntity(4, "Address 4", new Date(sdf.parse("20-05-2020").getTime()), new Date(sdf.parse("20-11-2020").getTime()), "STOPPED"));
 
 	}
@@ -66,17 +66,13 @@ public class EquipmentStoreControllerTest extends AbstractTest
 	}
 
 	@Test
-	@Ignore
 	public void getEquipmentStore_withoutPathParam() throws Exception {
 		String uri = "/equipment";
-		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+				.andExpect(status().isMethodNotAllowed())
+				.andReturn();
 
-		int status = mvcResult.getResponse().getStatus();
-		assertEquals(200, status);
-		String content = mvcResult.getResponse().getContentAsString();
-		EquipmentEntity equipmentEntity = super.mapFromJson(content, EquipmentEntity.class);
-		assertNotNull(equipmentEntity);
-		assertEquals(1, equipmentEntity.getEquipmentNumber());
+		assertEquals("Request method 'GET' not supported", mvcResult.getResolvedException().getMessage());
 	}
 
 	@Test
@@ -92,6 +88,7 @@ public class EquipmentStoreControllerTest extends AbstractTest
 		assertNotNull(equipmentEntityList);
 		assertEquals(3, equipmentEntityList.size());
 	}
+	
 
 	@Test
 	public void saveEquipment() throws Exception {
@@ -137,5 +134,18 @@ public class EquipmentStoreControllerTest extends AbstractTest
 		assertNotNull(mvcResult.getResolvedException().getMessage());
 		assertNotNull(mvcResult.getResponse().getContentAsString());
 	}
+	
+	/*@Test
+	public void getAllEquipmentInLimit_emptyStore() throws Exception {
+		String uri = "/equipment/search?limit=3";
+		equipmentRepository.deleteAll();
+		
+		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+				.andExpect(status().isBadRequest())
+				.andReturn();
+		
+		assertNotNull(mvcResult.getResolvedException().getMessage());
+		assertNotNull(mvcResult.getResponse().getContentAsString());
+	}*/
 
 }

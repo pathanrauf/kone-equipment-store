@@ -15,27 +15,27 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kone.entity.EquipmentEntity;
-import com.kone.service.EquipmentStoreService;
+import com.kone.service.EquipmentService;
 
 @RestController
 @RequestMapping("/equipment")
-public class EquipmentStoreController
+public class EquipmentController
 {
 	@Autowired
-	private EquipmentStoreService equipmentStoreService;
+	private EquipmentService equipmentService;
 
 	@GetMapping(value = "/search")
 	public List<EquipmentEntity> getEquipmentByLimit(@Positive @RequestParam(value = "limit") Integer limit) {
-		return equipmentStoreService.getEquipmentByLimit(limit);
+		return equipmentService.getEquipmentByLimit(limit);
 	}
 	
 	@GetMapping(value = "/{equipmentNumber}")
 	public EquipmentEntity getEquipmentById(@Positive @PathVariable Integer equipmentNumber) {
-		return equipmentStoreService.getEquipmentById(equipmentNumber);
+		return equipmentService.getEquipmentById(equipmentNumber);
 	}
 
 	@PostMapping
-	public EquipmentEntity storeEquipment(@Valid @RequestBody EquipmentEntity equipmentEntity) {
-		return equipmentStoreService.storeEquipment(equipmentEntity);
+	public EquipmentEntity saveEquipment(@Valid @RequestBody EquipmentEntity equipmentEntity) {
+		return equipmentService.saveEquipment(equipmentEntity);
 	}	
 }

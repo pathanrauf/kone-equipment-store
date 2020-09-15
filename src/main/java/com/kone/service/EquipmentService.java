@@ -7,16 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kone.entity.EquipmentEntity;
-import com.kone.repository.EquipmentStoreRepository;
+import com.kone.repository.EquipmentRepository;
 
 @Service
-public class EquipmentStoreService
+public class EquipmentService
 {
 	@Autowired
-	private EquipmentStoreRepository equipmentStoreRepository;
+	private EquipmentRepository equipmentRepository;
 
 	public EquipmentEntity getEquipmentById(Integer equipmentId) {
-		Optional<EquipmentEntity> equipmentEntity = equipmentStoreRepository.findById(equipmentId);
+		Optional<EquipmentEntity> equipmentEntity = equipmentRepository.findById(equipmentId);
 
 		if (equipmentEntity.isPresent()) {
 			return equipmentEntity.get();
@@ -25,16 +25,16 @@ public class EquipmentStoreService
 		}
 	}
 
-	public EquipmentEntity storeEquipment(EquipmentEntity equipmentEntity) {
-		Optional<EquipmentEntity> trade = equipmentStoreRepository.findById(equipmentEntity.getEquipmentNumber());
+	public EquipmentEntity saveEquipment(EquipmentEntity equipmentEntity) {
+		Optional<EquipmentEntity> trade = equipmentRepository.findById(equipmentEntity.getEquipmentNumber());
 		if (trade.isPresent()) {
 			throw new RuntimeException("Already record exists");
 		}
-		return equipmentStoreRepository.save(equipmentEntity);
+		return equipmentRepository.save(equipmentEntity);
 	}
 
 	public List<EquipmentEntity> getEquipmentByLimit(Integer limit) {
-		List<EquipmentEntity> equipmentEntityList = equipmentStoreRepository.findAllByLimit(limit);
+		List<EquipmentEntity> equipmentEntityList = equipmentRepository.findAllByLimit(limit);
 
 		if (!equipmentEntityList.isEmpty()) {
 			return equipmentEntityList;

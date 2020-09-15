@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.kone.entity.EquipmentEntity;
 
 @Repository
-public interface EquipmentStoreRepository extends JpaRepository<EquipmentEntity, Integer>
+public interface EquipmentRepository extends JpaRepository<EquipmentEntity, Integer>
 {
 
 	default List<EquipmentEntity> findAllByLimit(Integer limit) {
